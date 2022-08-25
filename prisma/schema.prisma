@@ -62,3 +62,53 @@ model VerificationToken {
 
     @@unique([identifier, token])
 }
+
+// TNA Storage Application
+model TNAStorageCollections {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+
+    TNAStorageBoxes TNAStorageBoxes[]
+}
+
+model TNAStorageBoxes {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+
+    TNAStorageItems        TNAStorageItems[]
+    TNAStorageCollection   TNAStorageCollections @relation(fields: [TNAStorageCollectionId], references: [id], onDelete: Cascade)
+    TNAStorageCollectionId String
+    TNAStorageLocation     TNAStorageLocations   @relation(fields: [TNAStorageLocationId], references: [id], onDelete: Cascade)
+    TNAStorageLocationId   String
+}
+
+model TNAStorageItems {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+
+    TNAStorageBox   TNAStorageBoxes @relation(fields: [TNAStorageBoxId], references: [id], onDelete: Cascade)
+    TNAStorageBoxId String
+}
+
+model TNAStorageLocations {
+    id          String   @id @default(cuid())
+    name        String
+    description String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @default(now())
+
+    TNAStorageBoxes TNAStorageBoxes[]
+}
+
+// TNA Plant Application
+
+// TNA Secrets Application
